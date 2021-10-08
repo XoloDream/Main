@@ -2,7 +2,7 @@ repeat wait(1) until game:IsLoaded()
 repeat wait(1) until game.Players:FindFirstChild(game.Players.LocalPlayer.Name)
 
 local Queue = syn and syn.queue_on_teleport or ScriptWare and queue_on_teleport
---Queue("loadstring(game:HttpGet('https://raw.githubusercontent.com/XoloDream/Main/main/World%20Zero.lua'))()")
+Queue("loadstring(game:HttpGet('https://raw.githubusercontent.com/XoloDream/Main/main/World%20Zero.lua'))()")
 
 local UserIDs = {
     219, -- SkyePercival
