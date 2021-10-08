@@ -13,7 +13,7 @@ local UserIDs = {
 
     117630695, --Sai
     49109897,
-    
+
     2644838750, --swiftyash
     2561152787, --roseshade
     2954211710, --
@@ -194,7 +194,7 @@ else
     
         --Auto farm
         local CurrentStatus = Sections.ActionSettings:AddLabel({Name = 'Status: Idle'})
-        local MiscLabel = Sections.ActionSettings:AddLabel({Name = 'Mission Timer: 00:00'})
+        local MiscLabel = Sections.ActionSettings:AddLabel({Name = 'Dungeon Timer: 00:00'})
 
         function GetActiveMission()
             local Table = {}
@@ -920,7 +920,7 @@ else
                         if minutes < 10 then
                             minutes = "0" .. tostring(minutes)
                         end
-                        MiscLabel:Set("Time: " ..minutes.. ":" .. seconds)
+                        MiscLabel:Set("Dungeon Timer: " ..minutes.. ":" .. seconds)
                     end
                     local t = tick()
 
