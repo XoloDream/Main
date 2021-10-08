@@ -887,11 +887,12 @@ else
                             end
                         
                             if InDungeon and Settings.RestartDungeon and (ItemCount >= 4 or Client.PlayerGui.MissionRewards.MissionRewards.Visible == true) then -- end mission
+                                CurrentStatus.Set('Looting..') 
                                 game.ReplicatedStorage.Shared.Missions.GetMissionPrize:InvokeServer()
                                 game.ReplicatedStorage.Shared.Missions.GetMissionPrize:InvokeServer()
-                                local WaitTimer = Settings.NextDungeonDelay
+                                local WaitTimer = Settings.NextDungeonDelay  
                                 repeat wait(1) 
-                                    MiscLabel.Set('Waiting: '.. WaitTimer ..' seconds till teleport')
+                                    MiscLabel.Set('Waiting '.. WaitTimer ..' Sec to teleport')
                                     WaitTimer = WaitTimer - 1
                                 until WaitTimer <= 0 
                                 task.wait(Settings.NextDungeonDelay)
