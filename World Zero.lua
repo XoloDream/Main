@@ -128,7 +128,6 @@ else
 
             MiscSettings = MiscTab:CreateSection({Name = 'Cooldowns'}),
         }
-        local MainTab = Window:CreateTab({Name = 'Main Features'})
     
         local Client = game.Players.LocalPlayer
         Client.CameraMaxZoomDistance = 1000
