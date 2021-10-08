@@ -107,7 +107,7 @@ else
         --Create UI
         local Lib = loadstring(game:HttpGet('https://raw.githubusercontent.com/0306191026/scripts/main/Materials/UILib/UISource/PepsiLib.lua', true))()
         local Window = Lib:CreateWindow({
-            Name = 'Astro Projekts - World Zero [v'..Version..']',
+            Name = 'Astro Project - World Zero [v'..Version..']',
             Themeable = {
                 --Image = 'rbxassetid://7483871523',
                 Credit = false,
