@@ -1401,7 +1401,7 @@ else
         -- Misc Settings
         Sections.MiscSettings:AddToggle({
             Name = 'No Busy',
-            Value = true,
+            Enabled = true,
             Flag =  Settings.NoBusy,
             Keybind = Enum.KeyCode.P,
             Callback = function(state)
