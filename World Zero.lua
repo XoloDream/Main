@@ -899,7 +899,7 @@ else
                                 end
                             end
                         
-                            if InDungeon and Settings.RestartDungeon then
+                            if InDungeon and Settings.RestartDungeon and Client.PlayerGui.MissionRewards.MissionRewards.Visible == false then
                                 displayTime(tick() - t)
                             elseif InDungeon and Settings.RestartDungeon and (ItemCount >= 4 or Client.PlayerGui.MissionRewards.MissionRewards.Visible == true) then -- end mission
                                 CurrentStatus.Set('Looting..') 
