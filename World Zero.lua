@@ -881,7 +881,7 @@ else
                     local t = tick()
 
                     spawn(function() -- mainfarm
-                        while Settings.StartFarm and require(game.ReplicatedStorage.Shared.Missions):IsMissionPlace() and task.wait(0.01) do
+                        while Settings.StartFarm  and task.wait(0.01) do
                             if Client.PlayerGui.QuestList.QuestList.DailyQuests.Frame.Complete.Select.ImageColor3 ~= Color3.fromRGB(129,129,129) then
                                 game.ReplicatedStorage.Shared.Quests.ClaimCrystals:FireServer()
                             end
