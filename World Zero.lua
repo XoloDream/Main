@@ -43,6 +43,7 @@ else
         StartFarm = false,
         AutoSell = false,
         KillAura = false,
+        NoBusy = true,
         PickUp = true,
         AutoEquip = false,
         SellCommon = true,
@@ -115,6 +116,7 @@ else
         })
     
         local MainTab = Window:CreateTab({Name = 'Main Features'})
+        local MiscTab = Window:CreateTab({Name = 'Misc'})
         local Sections = {
             AutofarmSettings = MainTab:CreateSection({Name = 'Auto Farm'}),
             FeaturesSettings = MainTab:CreateSection({Name = 'Feature', Side = "Right"}),
@@ -123,7 +125,10 @@ else
             MiscPet = MainTab:CreateSection({Name = 'Pet', Side = "Right"}),
             MiscDye = MainTab:CreateSection({Name = 'Dye', Side = "Right"}),
             MiscEvent = MainTab:CreateSection({Name = 'Event'}),
+
+            MiscSettings = MiscTab:CreateSection({Name = 'Cooldowns'}),
         }
+        local MainTab = Window:CreateTab({Name = 'Main Features'})
     
         local Client = game.Players.LocalPlayer
         Client.CameraMaxZoomDistance = 1000
@@ -233,7 +238,28 @@ else
         
             return stringtable
         end
-    
+
+        local function DifficultyList(ID)
+            local Diff = {}
+            for i,v in next, require(game.ReplicatedStorage.Shared.Missions.MissionData) do
+                if v.difficulties and v.ID == ID then
+                    for i1,v1 in next, v.difficulties do
+                        if v1.id == 1 then
+                            Diff[1] = "Normal"
+                        elseif v1.id == 2 then
+                            Diff[2] = "Hard"
+                        elseif v1.id == 3 then
+                            Diff[3] = "Challenge"
+                        elseif v1.id == 4 then
+                            Diff[4] = "MASTER"
+                        end
+                    end
+                end
+            end
+
+            return Diff
+        end
+
         local SelectDungeonAfterMission = Sections.AutofarmSettings:AddSearchBox({
             Name = 'Quests List',
             List = MissionList(),
@@ -241,6 +267,7 @@ else
             Callback = function(value)
                 for i,v in next, GetActiveMission() do
                     if value == v.Name then
+                        SelectDifficulty:UpdateList(DifficultyList(v.ID))
                         Settings.IdDungeon = v.ID
                         Settings.NameDungeon = v.Name
                         Save()
@@ -248,7 +275,29 @@ else
                 end
             end
         })
-    
+
+        local SelectDifficulty = Sections.AutofarmSettings:AddSearchBox({
+            Name = 'Difficulty List',
+            List = DifficultyList(Settings.IdDungeon),
+            Value = tostring(Settings.NameDifficulty),
+            Callback = function(value)
+                if value == "Normal" then
+                    Settings.NameDifficulty = value
+                    Settings.IdDifficulty = 1
+                elseif value == "Hard" then
+                    Settings.NameDifficulty = value
+                    Settings.IdDifficulty = 2
+                elseif value == "Challenge" then
+                    Settings.NameDifficulty = value
+                    Settings.IdDifficulty = 3
+                elseif value == "MASTER" then
+                    Settings.NameDifficulty = value
+                    Settings.IdDifficulty = 4
+                end
+                Save()
+            end
+        })
+
         ClientProfile.Level.Changed:Connect(function()
             SelectDungeonAfterMission:UpdateList(MissionList())
         end)
@@ -906,7 +955,7 @@ else
                                 game.ReplicatedStorage.Shared.Missions.GetMissionPrize:InvokeServer()
                                 local WaitTimer = Settings.NextDungeonDelay 
                                 repeat wait(1) 
-                                    CurrentStatus.Set('Waiting '.. WaitTimer ..' Sec to teleport')
+                                    CurrentStatus.Set('Waiting '.. WaitTimer ..' Seconds')
                                     WaitTimer = WaitTimer - 1
                                 until WaitTimer == 0 
                                 if QuestLeft('daily') > 0 and Settings.FarmDailyQuest then
@@ -1350,6 +1399,33 @@ else
             end
         })
     
+        -- Misc Settings
+        Sections.MiscSettings:AddToggle({
+            Name = 'No Busy',
+            Value = true,
+            Flag =  Settings.NoBusy,
+            Keybind = Enum.KeyCode.P,
+            Callback = function(state)
+                Settings.NoBusy = state
+                Save()
+
+                spawn(function()
+                    while state and wait(0.01) do
+                        for i,v in next, require(game.ReplicatedStorage.Client.Actions) do
+                            if typeof(v) ~= 'function' then continue end
+                            if i == 'IsBusy' then
+                                for i1,v1 in next, getupvalues(v) do
+                                    if typeof(v1) == 'boolean' and v1 == true then
+                                        setupvalue(v, i1, false)
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end)
+            end
+        })
+
         --Inventory
         Sections.AutoSellSettings:AddToggle({
             Name = 'Tier 1',
