@@ -10,11 +10,17 @@ local UserIDs = {
     1104, -- YaFemboiSkye
     305882, -- ZaVVaDa
     105904554, -- Xolo
+
+    117630695, --Sai
+    2935634575, --Saintbryce50
     
     2644838750, --swiftyash
     2561152787, --roseshade
     2954211710, --
     2936228885, --TNSASHKO
+    
+    1565363247, --ItzYourFavoriteWhiteBoy
+    49109897,
 
     10057146 --Citrum
 }
@@ -184,7 +190,7 @@ else
     
         --Auto farm
         local CurrentStatus = Sections.AutofarmSettings:AddLabel({Name = 'Status: Idle'})
-        local MiscLabel = Sections.AutofarmSettings:AddLabel({Name = 'Waiting..'})
+        local MiscLabel = Sections.AutofarmSettings:AddLabel({Name = 'Mission Timer: 00:00'})
 
         function GetActiveMission()
             local Table = {}
@@ -861,8 +867,21 @@ else
                         end)
                     end
                 
+                    local function displayTime(diff)
+                        local seconds = math.floor(diff % 60)
+                        local minutes = math.floor(diff / 60) % 60
+                        if seconds < 10 then
+                            seconds = "0" .. tostring(seconds)
+                        end
+                        if minutes < 10 then
+                            minutes = "0" .. tostring(minutes)
+                        end
+                        MiscLabel:Set("Time: " ..minutes.. ":" .. seconds)
+                    end
+                    local t = tick()
+
                     spawn(function() -- mainfarm
-                        while Settings.StartFarm and task.wait(0.01) do
+                        while Settings.StartFarm and require(game.ReplicatedStorage.Shared.Missions):IsMissionPlace() and task.wait(0.01) do
                             if Client.PlayerGui.QuestList.QuestList.DailyQuests.Frame.Complete.Select.ImageColor3 ~= Color3.fromRGB(129,129,129) then
                                 game.ReplicatedStorage.Shared.Quests.ClaimCrystals:FireServer()
                             end
@@ -880,16 +899,17 @@ else
                                 end
                             end
                         
-                            if InDungeon and Settings.RestartDungeon and (ItemCount >= 4 or Client.PlayerGui.MissionRewards.MissionRewards.Visible == true) then -- end mission
+                            if InDungeon and Settings.RestartDungeon and (ItemCount < 4 or Client.PlayerGui.MissionRewards.MissionRewards.Visible == false) then
+                                displayTime(tick() - t)
+                            elseif InDungeon and Settings.RestartDungeon and (ItemCount >= 4 or Client.PlayerGui.MissionRewards.MissionRewards.Visible == true) then -- end mission
                                 CurrentStatus.Set('Looting..') 
                                 game.ReplicatedStorage.Shared.Missions.GetMissionPrize:InvokeServer()
                                 game.ReplicatedStorage.Shared.Missions.GetMissionPrize:InvokeServer()
-                                local WaitTimer = Settings.NextDungeonDelay  
+                                local WaitTimer = Settings.NextDungeonDelay 
                                 repeat wait(1) 
-                                    MiscLabel.Set('Waiting '.. WaitTimer ..' Sec to teleport')
+                                    CurrentStatus.Set('Waiting '.. WaitTimer ..' Sec to teleport')
                                     WaitTimer = WaitTimer - 1
-                                until WaitTimer <= 0 
-                                task.wait(Settings.NextDungeonDelay)
+                                until WaitTimer = 0 
                                 if QuestLeft('daily') > 0 and Settings.FarmDailyQuest then
                                     RepeatMission(GetDailyQuest())
                                 elseif (QuestLeft('daily') <= 0 or not Settings.FarmDailyQuest) and (QuestLeft('world') > 0 and Settings.FarmWorldQuest) then
