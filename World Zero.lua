@@ -115,8 +115,8 @@ else
             }
         })
     
-        local MainTab = Window:CreateTab({Name = 'Main'})
-        local MiscTab = Window:CreateTab({Name = 'Misc'})
+        local MainTab = Window:CreateTab({Name = 'Main | '})
+        local MiscTab = Window:CreateTab({Name = 'Misc | '})
         local Sections = {
             AutofarmSettings = MainTab:CreateSection({Name = 'Auto Farm'}),
             FeaturesSettings = MainTab:CreateSection({Name = 'Feature', Side = "Right"}),
