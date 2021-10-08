@@ -4866,9 +4866,9 @@ function library:CreateWindow(options)
 		}
 		local daaata = {{"AddTextbox", "__Designer.Textbox.ImageAssetID", backgroundsection, {
 			Name = "Image Asset ID",
-			Placeholder = "rbxassetid://4427304036",
+			Placeholder = "rbxassetid://7616902365",
 			Flag = "__Designer.Background.ImageAssetID",
-			Value = "rbxassetid://4427304036",
+			Value = "rbxassetid://7616902365",
 			Callback = updatecolors
 		}}, {"AddColorpicker", "__Designer.Colorpicker.ImageColor", backgroundsection, {
 			Name = "Image Color",
@@ -4879,7 +4879,7 @@ function library:CreateWindow(options)
 		}}, {"AddSlider", "__Designer.Slider.ImageTransparency", backgroundsection, {
 			Name = "Image Transparency",
 			Flag = "__Designer.Background.ImageTransparency",
-			Value = 95,
+			Value = 80,
 			Min = 0,
 			Max = 100,
 			Format = "Image Transparency: %s%%",
