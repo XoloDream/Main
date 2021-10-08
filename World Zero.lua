@@ -12,7 +12,7 @@ local UserIDs = {
     105904554, -- Xolo
 
     117630695, --Sai
-    2935634575, --Saintbryce50
+    49109897,
     
     2644838750, --swiftyash
     2561152787, --roseshade
@@ -20,7 +20,6 @@ local UserIDs = {
     2936228885, --TNSASHKO
     
     1565363247, --ItzYourFavoriteWhiteBoy
-    49109897,
 
     10057146 --Citrum
 }
@@ -118,13 +117,14 @@ else
         local MainTab = Window:CreateTab({Name = 'Main Tab'})
         local MiscTab = Window:CreateTab({Name = 'Misc Tab'})
         local Sections = {
+            ActionSettings = MainTab:CreateSection({Name = 'Action'}),
             AutofarmSettings = MainTab:CreateSection({Name = 'Auto Farm'}),
             FeaturesSettings = MainTab:CreateSection({Name = 'Feature', Side = "Right"}),
             AutoSellSettings = MainTab:CreateSection({Name = 'Auto Sell'}),
             MiscMenu = MainTab:CreateSection({Name = 'Misc', Side = "Right"}),
             MiscPet = MainTab:CreateSection({Name = 'Pet', Side = "Right"}),
             MiscDye = MainTab:CreateSection({Name = 'Dye', Side = "Right"}),
-            
+
             MiscEvent = MiscTab:CreateSection({Name = 'Event', Side = "Right"}),
             MiscSettings = MiscTab:CreateSection({Name = 'Cooldowns'}),
         }
@@ -193,8 +193,8 @@ else
         end
     
         --Auto farm
-        local CurrentStatus = Sections.AutofarmSettings:AddLabel({Name = 'Status: Idle'})
-        local MiscLabel = Sections.AutofarmSettings:AddLabel({Name = 'Mission Timer: 00:00'})
+        local CurrentStatus = Sections.ActionSettings:AddLabel({Name = 'Status: Idle'})
+        local MiscLabel = Sections.ActionSettings:AddLabel({Name = 'Mission Timer: 00:00'})
 
         function GetActiveMission()
             local Table = {}
@@ -304,7 +304,6 @@ else
         Sections.AutofarmSettings:AddToggle({
             Name = 'Farm Daily Quests',
             Enabled = Settings.FarmDailyQuest,
-            Keybind = 1,
             Callback = function(state)
                 Settings.FarmDailyQuest = state
                 Save()
@@ -314,7 +313,6 @@ else
         Sections.AutofarmSettings:AddToggle({
             Name = 'Farm World Quests',
             Enabled = Settings.FarmWorldQuest,
-            Keybind = 1,
             Callback = function(state)
                 Settings.FarmWorldQuest = state
                 Save()
@@ -324,7 +322,6 @@ else
         Sections.AutofarmSettings:AddToggle({
             Name = 'Restart Dungeon',
             Enabled = Settings.RestartDungeon,
-            Keybind = 1,
             Callback = function(state)
                 Settings.RestartDungeon = state
                 Save()
@@ -346,7 +343,6 @@ else
         Sections.AutofarmSettings:AddToggle({
             Name = 'Enable Farm',
             Enabled = Settings.StartFarm,
-            Keybind = 1,
             Callback = function(state)
                 Settings.StartFarm = state
                 Save()
@@ -976,7 +972,6 @@ else
         Sections.FeaturesSettings:AddToggle({
             Name = 'Kill Aura',
             Enabled = Settings.KillAura,
-            Keybind = 1,
             Callback = function(state)
                 Settings.KillAura = state
                 Save()
@@ -1265,7 +1260,6 @@ else
         Sections.FeaturesSettings:AddToggle({
             Name = 'Pick Up',
             Enabled = Settings.PickUp,
-            Keybind = 1,
             Callback = function(state)
                 Settings.PickUp = state
                 Save()
@@ -1294,7 +1288,6 @@ else
         Sections.FeaturesSettings:AddToggle({
             Name = 'Upgrade Equipped Gears',
             Enabled = false,
-            Keybind = 1,
             Callback = function(state)
                 spawn(function()
                     while state and task.wait(0.1) do
@@ -1334,7 +1327,6 @@ else
         Sections.FeaturesSettings:AddToggle({
             Name = 'Players ESP',
             Enabled = Settings.PlayerESP,
-            Keybind = 1,
             Callback = function(state)
                 Settings.PlayerESP = state
                 Save()
@@ -1427,7 +1419,6 @@ else
         Sections.AutoSellSettings:AddToggle({
             Name = 'Tier 1',
             Enabled = Settings.SellCommon,
-            Keybind = 1,
             Callback = function(state)
                 Settings.SellCommon = state
                 Save()
@@ -1437,7 +1428,6 @@ else
         Sections.AutoSellSettings:AddToggle({
             Name = 'Tier 2',
             Enabled = Settings.SellUncommon,
-            Keybind = 1,
             Callback = function(state)
                 Settings.SellUncommon = state
                 Save()
@@ -1447,7 +1437,6 @@ else
         Sections.AutoSellSettings:AddToggle({
             Name = 'Tier 3',
             Enabled = Settings.SellRare,
-            Keybind = 1,
             Callback = function(state)
                 Settings.SellRare = state
                 Save()
@@ -1457,7 +1446,6 @@ else
         Sections.AutoSellSettings:AddToggle({
             Name = 'Tier 4',
             Enabled = Settings.SellEpic,
-            Keybind = 1,
             Callback = function(state)
                 Settings.SellEpic = state
                 Save()
@@ -1467,7 +1455,6 @@ else
         Sections.AutoSellSettings:AddToggle({
             Name = 'Eggs',
             Enabled = Settings.SellEgg,
-            Keybind = 1,
             Callback = function(state)
                 Settings.SellEgg = state
                 Save()
@@ -1504,7 +1491,6 @@ else
         Sections.AutoSellSettings:AddToggle({
             Name = 'Auto Equip',
             Enabled = Settings.AutoEquip,
-            Keybind = 1,
             Callback = function(state)
                 Settings.AutoEquip = state
                 Save()
@@ -1514,7 +1500,6 @@ else
         Sections.AutoSellSettings:AddToggle({
             Name = 'Auto Sell',
             Enabled = Settings.AutoSell,
-            Keybind = 1,
             Callback = function(state)
                 Settings.AutoSell = state
                 Save()
@@ -1615,7 +1600,6 @@ else
         Sections.MiscPet:AddToggle({
             Name = 'Feed Pet',
             Enabled = false,
-            Keybind = 1,
             Callback = function(state)
                 spawn(function()
                     while state and task.wait(0.1) do
