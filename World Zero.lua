@@ -909,7 +909,7 @@ else
                                 repeat wait(1) 
                                     CurrentStatus.Set('Waiting '.. WaitTimer ..' Sec to teleport')
                                     WaitTimer = WaitTimer - 1
-                                until WaitTimer = 0 
+                                until WaitTimer == 0 
                                 if QuestLeft('daily') > 0 and Settings.FarmDailyQuest then
                                     RepeatMission(GetDailyQuest())
                                 elseif (QuestLeft('daily') <= 0 or not Settings.FarmDailyQuest) and (QuestLeft('world') > 0 and Settings.FarmWorldQuest) then
