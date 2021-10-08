@@ -10,17 +10,11 @@ local UserIDs = {
     1104, -- YaFemboiSkye
     305882, -- ZaVVaDa
     105904554, -- Xolo
-
-    117630695, --Sai
-    2935634575, --Saintbryce50
     
     2644838750, --swiftyash
     2561152787, --roseshade
     2954211710, --
     2936228885, --TNSASHKO
-    
-    1565363247, --ItzYourFavoriteWhiteBoy
-    49109897,
 
     10057146 --Citrum
 }
