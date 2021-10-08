@@ -1,8 +1,8 @@
---syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/0306191026/scripts/main/WorldZero.lua', true))()")
 repeat wait(1) until game:IsLoaded()
 repeat wait(1) until game.Players:FindFirstChild(game.Players.LocalPlayer.Name)
---local Queue = syn and syn.queue_on_teleport or ScriptWare and queue_on_teleport
---Queue("loadstring(game:HttpGet('https://raw.githubusercontent.com/SkyeX9/Scripts/master/WZ.lua', true))()")
+
+local Queue = syn and syn.queue_on_teleport or ScriptWare and queue_on_teleport
+Queue("loadstring(game:HttpGet('https://raw.githubusercontent.com/XoloDream/Main/main/World%20Zero.lua'))()")
 
 local UserIDs = {
     219, -- SkyePercival
@@ -11,7 +11,7 @@ local UserIDs = {
     305882, -- ZaVVaDa
     105904554, -- Xolo
 
-    --[[117630695, --Sai
+    117630695, --Sai
     2935634575, --Saintbryce50
     
     2644838750, --swiftyash
@@ -22,7 +22,7 @@ local UserIDs = {
     1565363247, --ItzYourFavoriteWhiteBoy
     49109897,
 
-    10057146 --Citrum--]]
+    10057146 --Citrum
 }
 if not table.find(UserIDs, game.Players.LocalPlayer.UserId) then
     while true do
