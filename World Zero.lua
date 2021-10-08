@@ -2,7 +2,7 @@ repeat wait(1) until game:IsLoaded()
 repeat wait(1) until game.Players:FindFirstChild(game.Players.LocalPlayer.Name)
 
 local Queue = syn and syn.queue_on_teleport or ScriptWare and queue_on_teleport
-Queue("loadstring(game:HttpGet('https://raw.githubusercontent.com/XoloDream/Main/main/World%20Zero.lua'))()")
+--Queue("loadstring(game:HttpGet('https://raw.githubusercontent.com/XoloDream/Main/main/World%20Zero.lua'))()")
 
 local UserIDs = {
     219, -- SkyePercival
@@ -115,7 +115,7 @@ else
             }
         })
     
-        local MainTab = Window:CreateTab({Name = 'Main Features'})
+        local MainTab = Window:CreateTab({Name = 'Main'})
         local MiscTab = Window:CreateTab({Name = 'Misc'})
         local Sections = {
             AutofarmSettings = MainTab:CreateSection({Name = 'Auto Farm'}),
@@ -1401,9 +1401,7 @@ else
         -- Misc Settings
         Sections.MiscSettings:AddToggle({
             Name = 'No Busy',
-            Enabled = true,
-            Flag =  Settings.NoBusy,
-            Keybind = Enum.KeyCode.P,
+            Enabled = Settings.NoBusy,
             Callback = function(state)
                 Settings.NoBusy = state
                 Save()
