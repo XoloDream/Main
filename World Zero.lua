@@ -105,7 +105,7 @@ else
         repeat task.wait(1) until game.Players.LocalPlayer.Character:FindFirstChild('Collider')
     
         --Create UI
-        local Lib = loadstring(game:HttpGet('https://raw.githubusercontent.com/0306191026/scripts/main/Materials/UILib/UISource/PepsiLib.lua', true))()
+        local Lib = loadstring(game:HttpGet('https://raw.githubusercontent.com/XoloDream/Main/main/Materials/UILib/UISource/PepsiLib.lua', true))()
         local Window = Lib:CreateWindow({
             Name = 'Astro Projekts - World Zero [v'..Version..']',
             Themeable = {
