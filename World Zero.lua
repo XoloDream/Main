@@ -34,7 +34,7 @@ else
     repeat task.wait() until game:IsLoaded()
     repeat task.wait() until game.Players:FindFirstChild(game.Players.LocalPlayer.Name)
     
-    local Version = "1.2a"
+    local Version = "1.3a"
     local Name = 'WorldZero (UID_'..game.Players.LocalPlayer.UserId..').json'
     local DefaultSettings = {
         FarmDailyQuest = false,
@@ -260,7 +260,7 @@ else
             return Diff
         end
 
-        local SelectDungeonAfterMission = Sections.AutofarmSettings:AddSearchBox({
+        SelectDungeonAfterMission = Sections.AutofarmSettings:AddSearchBox({
             Name = 'Quests List',
             List = MissionList(),
             Value = tostring(Settings.NameDungeon),
@@ -276,7 +276,7 @@ else
             end
         })
 
-        local SelectDifficulty = Sections.AutofarmSettings:AddSearchBox({
+        SelectDifficulty = Sections.AutofarmSettings:AddSearchBox({
             Name = 'Difficulty List',
             List = DifficultyList(Settings.IdDungeon),
             Value = tostring(Settings.NameDifficulty),
