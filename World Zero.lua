@@ -1392,7 +1392,7 @@ else
     
         -- Misc Settings
         Sections.MiscSettings:AddToggle({
-            Name = 'No Busy',
+            Name = 'RapidFire',
             Enabled = Settings.NoBusy,
             Callback = function(state)
                 Settings.NoBusy = state
