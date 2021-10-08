@@ -902,7 +902,6 @@ else
                             if InDungeon and Settings.RestartDungeon and Client.PlayerGui.MissionRewards.MissionRewards.Visible == false then
                                 displayTime(tick() - t)
                             elseif InDungeon and Settings.RestartDungeon and (ItemCount >= 4 or Client.PlayerGui.MissionRewards.MissionRewards.Visible == true) then -- end mission
-                                CurrentStatus.Set('Looting..') 
                                 game.ReplicatedStorage.Shared.Missions.GetMissionPrize:InvokeServer()
                                 game.ReplicatedStorage.Shared.Missions.GetMissionPrize:InvokeServer()
                                 local WaitTimer = Settings.NextDungeonDelay 
