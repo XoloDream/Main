@@ -124,8 +124,8 @@ else
             MiscMenu = MainTab:CreateSection({Name = 'Misc', Side = "Right"}),
             MiscPet = MainTab:CreateSection({Name = 'Pet', Side = "Right"}),
             MiscDye = MainTab:CreateSection({Name = 'Dye', Side = "Right"}),
-            MiscEvent = MainTab:CreateSection({Name = 'Event'}),
-
+            
+            MiscEvent = MiscTab:CreateSection({Name = 'Event', Side = "Right"}),
             MiscSettings = MiscTab:CreateSection({Name = 'Cooldowns'}),
         }
     
