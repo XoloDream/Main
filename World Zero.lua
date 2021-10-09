@@ -2,7 +2,7 @@ repeat wait(1) until game:IsLoaded()
 repeat wait(1) until game.Players:FindFirstChild(game.Players.LocalPlayer.Name)
 
 local Queue = syn and syn.queue_on_teleport or ScriptWare and queue_on_teleport
-Queue("loadstring(game:HttpGet('https://raw.githubusercontent.com/XoloDream/Main/main/World%20Zero.lua'))()")
+--Queue("loadstring(game:HttpGet('https://raw.githubusercontent.com/XoloDream/Main/main/World%20Zero.lua'))()")
 
 local UserIDs = {
     219, -- SkyePercival
@@ -105,7 +105,7 @@ else
     else
         repeat task.wait(1) until game.Players.LocalPlayer.Character
         repeat task.wait(1) until game.Players.LocalPlayer.Character:FindFirstChild('Collider')
-        
+    
         --Create UI
         local Lib = loadstring(game:HttpGet('https://raw.githubusercontent.com/XoloDream/Main/main/Materials/UILib/UISource/PepsiLib.lua', true))()
         local Window = Lib:CreateWindow({
@@ -1089,7 +1089,7 @@ else
                     Paladin = {Atk = 0.6},
                 
                     Dragoon = {Atk = 0.3, Ult = 3},
-                    Demon = {Atk = 0.95},
+                    Demon = {Atk = 1},
                     Archer = {Atk = 0.4, Ult = 4},
                 }
             
