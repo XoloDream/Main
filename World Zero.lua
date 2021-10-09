@@ -11,18 +11,17 @@ local UserIDs = {
     305882, -- ZaVVaDa
     105904554, -- Xolo
 
-    117630695, -- Sai
+    117630695, --Sai
     49109897,
-    2935634575, -- Bryce
 
-    2644838750, -- swiftyash
-    2561152787, -- roseshade
+    2644838750, --swiftyash
+    2561152787, --roseshade
     2954211710, --
-    2936228885, -- TNSASHKO
+    2936228885, --TNSASHKO
     
-    1565363247, -- ItzYourFavoriteWhiteBoy
+    1565363247, --ItzYourFavoriteWhiteBoy
 
-    10057146 -- Citrum
+    10057146 --Citrum
 }
 if not table.find(UserIDs, game.Players.LocalPlayer.UserId) then
     while true do
@@ -92,6 +91,14 @@ else
         end
     end)
     
+    spawn(function()
+        while wait(1200) do
+            if Settings.StartFarm then
+                game:GetService('TeleportService'):Teleport(2727067538)
+            end
+        end
+    end)
+
     if game.PlaceId == 2727067538 then
         if Settings.StartFarm then
             repeat task.wait() until game.ReplicatedStorage.ProfileCollections:FindFirstChild(game.Players.LocalPlayer.Name)
@@ -912,6 +919,7 @@ else
                         end)
                     end
                 
+                    local MinRec, SecRec
                     local function displayTime(diff)
                         local seconds = math.floor(diff % 60)
                         local minutes = math.floor(diff / 60) % 60
@@ -922,7 +930,12 @@ else
                             minutes = "0" .. tostring(minutes)
                         end
                         MiscLabel:Set("Dungeon Timer: " ..minutes.. ":" .. seconds)
+                        SecRec = seconds; MinRec = minutes
                     end
+                    local function FinishedTime(diff)
+                        MiscLabel:Set("Dungeon Finished in " ..MinRec.. ":" .. SecRec)
+                    end
+
                     local t = tick()
 
                     spawn(function() -- mainfarm
@@ -947,6 +960,7 @@ else
                             if InDungeon and Settings.RestartDungeon and Client.PlayerGui.MissionRewards.MissionRewards.Visible == false then
                                 displayTime(tick() - t)
                             elseif InDungeon and Settings.RestartDungeon and (ItemCount >= 4 or Client.PlayerGui.MissionRewards.MissionRewards.Visible == true) then -- end mission
+                                FinishedTime(tick() - t)
                                 game.ReplicatedStorage.Shared.Missions.GetMissionPrize:InvokeServer()
                                 game.ReplicatedStorage.Shared.Missions.GetMissionPrize:InvokeServer()
                                 local WaitTimer = Settings.NextDungeonDelay 
