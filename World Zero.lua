@@ -29,9 +29,7 @@ if not table.find(UserIDs, game.Players.LocalPlayer.UserId) then
         game.Players.LocalPlayer:Kick("Fuck off kid. Youre not allowed")
     end
 else
-    --Starter
-    repeat task.wait() until game.Players:FindFirstChild(game.Players.LocalPlayer.Name)
-    
+    --Starter    
     local Version = "1.3c"
     local Name = 'WorldZero (UID_'..game.Players.LocalPlayer.UserId..').json'
     local DefaultSettings = {
