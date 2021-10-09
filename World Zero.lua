@@ -30,7 +30,6 @@ if not table.find(UserIDs, game.Players.LocalPlayer.UserId) then
     end
 else
     --Starter
-    repeat task.wait() until game:IsLoaded()
     repeat task.wait() until game.Players:FindFirstChild(game.Players.LocalPlayer.Name)
     
     local Version = "1.3c"
@@ -70,6 +69,12 @@ else
         writefile(Name,game:GetService('HttpService'):JSONEncode(Settings)) 
     end
     
+    spawn(function()
+        while wait(Settings.RejoinDelay * 60) do
+            game:GetService('TeleportService'):Teleport(2727067538)
+        end
+    end)
+
     game.CoreGui.RobloxPromptGui.promptOverlay.DescendantAdded:Connect(function()
         local GUI = game.CoreGui.RobloxPromptGui.promptOverlay:FindFirstChild('ErrorPrompt')
         if GUI then
@@ -1687,13 +1692,5 @@ else
                 end
             end
         })
-
-        spawn(function()
-            while wait(Settings.RejoinDelay * 60) do
-                if InDungeon and Settings.StartFarm then
-                    game:GetService('TeleportService'):Teleport(2727067538)
-                end
-            end
-        end)
     end
 end
