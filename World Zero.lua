@@ -58,18 +58,12 @@ else
         SprintSpeed = 30,
         PlayerESP = false,
     }
-    local DefaultKeybinds = {
-        AutoFarm = "9",
-        KillAura = "0",
-    }
     
     if not pcall(function() readfile(Name) end) then 
         writefile(Name, game:GetService('HttpService'):JSONEncode(DefaultSettings)) 
-        writefile(Name, game:GetService('HttpService'):JSONEncode(DefaultKeybinds)) 
     end
     
     local Settings = game:GetService('HttpService'):JSONDecode(readfile(Name))
-    local Keybinds = game:GetService('HttpService'):JSONDecode(readfile(Name))
     
     function Save() 
         writefile(Name,game:GetService('HttpService'):JSONEncode(Settings)) 
