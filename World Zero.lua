@@ -105,7 +105,8 @@ else
     else
         repeat task.wait(1) until game.Players.LocalPlayer.Character
         repeat task.wait(1) until game.Players.LocalPlayer.Character:FindFirstChild('Collider')
-    
+        wait(1)
+        
         --Create UI
         local Lib = loadstring(game:HttpGet('https://raw.githubusercontent.com/XoloDream/Main/main/Materials/UILib/UISource/PepsiLib.lua', true))()
         local Window = Lib:CreateWindow({
