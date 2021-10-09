@@ -33,7 +33,7 @@ else
     repeat task.wait() until game:IsLoaded()
     repeat task.wait() until game.Players:FindFirstChild(game.Players.LocalPlayer.Name)
     
-    local Version = "1.3a"
+    local Version = "1.3b"
     local Name = 'WorldZero (UID_'..game.Players.LocalPlayer.UserId..').json'
     local DefaultSettings = {
         FarmDailyQuest = false,
