@@ -2,7 +2,7 @@ repeat wait(1) until game:IsLoaded()
 repeat wait(1) until game.Players:FindFirstChild(game.Players.LocalPlayer.Name)
 
 local Queue = syn and syn.queue_on_teleport or ScriptWare and queue_on_teleport
---Queue("loadstring(game:HttpGet('https://raw.githubusercontent.com/XoloDream/Main/main/World%20Zero.lua'))()")
+Queue("loadstring(game:HttpGet('https://raw.githubusercontent.com/XoloDream/Main/main/World%20Zero.lua'))()")
 
 local UserIDs = {
     219, -- SkyePercival
@@ -33,12 +33,13 @@ else
     repeat task.wait() until game:IsLoaded()
     repeat task.wait() until game.Players:FindFirstChild(game.Players.LocalPlayer.Name)
     
-    local Version = "1.3b"
+    local Version = "1.3c"
     local Name = 'WorldZero (UID_'..game.Players.LocalPlayer.UserId..').json'
     local DefaultSettings = {
         FarmDailyQuest = false,
         FarmWorldQuest = false,
         RestartDungeon = false,
+        RejoinDelay = 60,
         StartFarm = false,
         AutoSell = false,
         KillAura = false,
@@ -84,14 +85,6 @@ else
             end
         end
     end)
-    
-    spawn(function()
-        while wait(1200) do
-            if Settings.StartFarm then
-                game:GetService('TeleportService'):Teleport(2727067538)
-            end
-        end
-    end)
 
     if game.PlaceId == 2727067538 then
         if Settings.StartFarm then
@@ -120,9 +113,9 @@ else
         local MiscTab = Window:CreateTab({Name = 'Misc Tab'})
         local Sections = {
             ActionSettings = MainTab:CreateSection({Name = 'Action'}),
-            AutofarmSettings = MainTab:CreateSection({Name = 'Auto Farm'}),
-            FeaturesSettings = MainTab:CreateSection({Name = 'Feature', Side = "Right"}),
-            AutoSellSettings = MainTab:CreateSection({Name = 'Auto Sell'}),
+            AutofarmSettings = MainTab:CreateSection({Name = 'Farm Settings'}),
+            FeaturesSettings = MainTab:CreateSection({Name = 'Feature'}),
+            AutoSellSettings = MainTab:CreateSection({Name = 'Auto Sell', Side = "Right"}),
             MiscMenu = MainTab:CreateSection({Name = 'Misc', Side = "Right"}),
             MiscPet = MainTab:CreateSection({Name = 'Pet', Side = "Right"}),
             MiscDye = MainTab:CreateSection({Name = 'Dye', Side = "Right"}),
@@ -194,10 +187,6 @@ else
             v:Disable()
         end
     
-        --Auto farm
-        local CurrentStatus = Sections.ActionSettings:AddLabel({Name = 'Status: Idle'})
-        local MiscLabel = Sections.ActionSettings:AddLabel({Name = 'Dungeon Timer: 00:00'})
-
         function GetActiveMission()
             local Table = {}
             for i,v in next, require(game.ReplicatedStorage.Shared.Missions.MissionData) do
@@ -261,88 +250,11 @@ else
             return Diff
         end
 
-        SelectDungeonAfterMission = Sections.AutofarmSettings:AddSearchBox({
-            Name = 'Quests List',
-            List = MissionList(),
-            Value = tostring(Settings.NameDungeon),
-            Callback = function(value)
-                for i,v in next, GetActiveMission() do
-                    if value == v.Name then
-                        SelectDifficulty:UpdateList(DifficultyList(v.ID))
-                        Settings.IdDungeon = v.ID
-                        Settings.NameDungeon = v.Name
-                        Save()
-                    end
-                end
-            end
-        })
+        --Auto farm
+        local CurrentStatus = Sections.ActionSettings:AddLabel({Name = 'Status: Idle'})
+        local MiscLabel = Sections.ActionSettings:AddLabel({Name = 'Dungeon Timer: 00:00'})
 
-        SelectDifficulty = Sections.AutofarmSettings:AddSearchBox({
-            Name = 'Difficulty List',
-            List = DifficultyList(Settings.IdDungeon),
-            Value = tostring(Settings.NameDifficulty),
-            Callback = function(value)
-                if value == "Normal" then
-                    Settings.NameDifficulty = value
-                    Settings.IdDifficulty = 1
-                elseif value == "Hard" then
-                    Settings.NameDifficulty = value
-                    Settings.IdDifficulty = 2
-                elseif value == "Challenge" then
-                    Settings.NameDifficulty = value
-                    Settings.IdDifficulty = 3
-                elseif value == "MASTER" then
-                    Settings.NameDifficulty = value
-                    Settings.IdDifficulty = 4
-                end
-                Save()
-            end
-        })
-
-        ClientProfile.Level.Changed:Connect(function()
-            SelectDungeonAfterMission:UpdateList(MissionList())
-        end)
-    
-        Sections.AutofarmSettings:AddToggle({
-            Name = 'Farm Daily Quests',
-            Enabled = Settings.FarmDailyQuest,
-            Callback = function(state)
-                Settings.FarmDailyQuest = state
-                Save()
-            end
-        })
-    
-        Sections.AutofarmSettings:AddToggle({
-            Name = 'Farm World Quests',
-            Enabled = Settings.FarmWorldQuest,
-            Callback = function(state)
-                Settings.FarmWorldQuest = state
-                Save()
-            end
-        })
-    
-        Sections.AutofarmSettings:AddToggle({
-            Name = 'Restart Dungeon',
-            Enabled = Settings.RestartDungeon,
-            Callback = function(state)
-                Settings.RestartDungeon = state
-                Save()
-            end
-        })
-    
-        Sections.AutofarmSettings:AddSlider({
-            Name = 'Next Dungeon Delay (sec)',
-            Min = 2,
-            Max = 300,
-            Value = Settings.NextDungeonDelay,
-            Textbox = true,
-            Callback = function(value)
-                Settings.NextDungeonDelay = value
-                Save()
-            end
-        })
-    
-        Sections.AutofarmSettings:AddToggle({
+        Sections.ActionSettings:AddToggle({
             Name = 'Enable Farm',
             Enabled = Settings.StartFarm,
             Callback = function(state)
@@ -932,6 +844,8 @@ else
 
                     local t = tick()
 
+                    local WaitTimer = Settings.NextDungeonDelay 
+                    
                     spawn(function() -- mainfarm
                         while Settings.StartFarm  and task.wait(0.01) do
                             if Client.PlayerGui.QuestList.QuestList.DailyQuests.Frame.Complete.Select.ImageColor3 ~= Color3.fromRGB(129,129,129) then
@@ -957,7 +871,6 @@ else
                                 FinishedTime(tick() - t)
                                 game.ReplicatedStorage.Shared.Missions.GetMissionPrize:InvokeServer()
                                 game.ReplicatedStorage.Shared.Missions.GetMissionPrize:InvokeServer()
-                                local WaitTimer = Settings.NextDungeonDelay 
                                 repeat wait(1) 
                                     CurrentStatus.Set('Waiting '.. WaitTimer ..' Seconds')
                                     WaitTimer = WaitTimer - 1
@@ -969,6 +882,7 @@ else
                                 elseif (QuestLeft('daily') <= 0 or not Settings.FarmDailyQuest) and (QuestLeft('world') <= 0 or not Settings.FarmWorldQuest) then
                                     CurrentStatus.Set('Moving to: '..Settings.NameDungeon)
                                     game.ReplicatedStorage.Shared.Teleport.StartRaid:FireServer(Settings.IdDungeon)
+                                    wait(5)
                                 end
                             end
                         end
@@ -976,7 +890,100 @@ else
                 end
             end
         })
+
+        SelectDungeonAfterMission = Sections.AutofarmSettings:AddSearchBox({
+            Name = 'Quests List',
+            List = MissionList(),
+            Value = tostring(Settings.NameDungeon),
+            Callback = function(value)
+                for i,v in next, GetActiveMission() do
+                    if value == v.Name then
+                        SelectDifficulty:UpdateList(DifficultyList(v.ID))
+                        Settings.IdDungeon = v.ID
+                        Settings.NameDungeon = v.Name
+                        Save()
+                    end
+                end
+            end
+        })
+
+        SelectDifficulty = Sections.AutofarmSettings:AddSearchBox({
+            Name = 'Difficulty List',
+            List = DifficultyList(Settings.IdDungeon),
+            Value = tostring(Settings.NameDifficulty),
+            Callback = function(value)
+                if value == "Normal" then
+                    Settings.NameDifficulty = value
+                    Settings.IdDifficulty = 1
+                elseif value == "Hard" then
+                    Settings.NameDifficulty = value
+                    Settings.IdDifficulty = 2
+                elseif value == "Challenge" then
+                    Settings.NameDifficulty = value
+                    Settings.IdDifficulty = 3
+                elseif value == "MASTER" then
+                    Settings.NameDifficulty = value
+                    Settings.IdDifficulty = 4
+                end
+                Save()
+            end
+        })
+
+        ClientProfile.Level.Changed:Connect(function()
+            SelectDungeonAfterMission:UpdateList(MissionList())
+        end)
     
+        Sections.AutofarmSettings:AddToggle({
+            Name = 'Farm Daily Quests',
+            Enabled = Settings.FarmDailyQuest,
+            Callback = function(state)
+                Settings.FarmDailyQuest = state
+                Save()
+            end
+        })
+    
+        Sections.AutofarmSettings:AddToggle({
+            Name = 'Farm World Quests',
+            Enabled = Settings.FarmWorldQuest,
+            Callback = function(state)
+                Settings.FarmWorldQuest = state
+                Save()
+            end
+        })
+    
+        Sections.AutofarmSettings:AddToggle({
+            Name = 'Restart Dungeon',
+            Enabled = Settings.RestartDungeon,
+            Callback = function(state)
+                Settings.RestartDungeon = state
+                Save()
+            end
+        })
+    
+        Sections.AutofarmSettings:AddSlider({
+            Name = 'Next Dungeon Delay (Sec)',
+            Min = 2,
+            Max = 300,
+            Value = Settings.NextDungeonDelay,
+            Textbox = true,
+            Callback = function(value)
+                Settings.NextDungeonDelay = value
+                Save()
+            end
+        })
+
+        Sections.AutofarmSettings:AddSlider({
+            Name = 'Rejoin Game Delay (Min)',
+            Min = 3,
+            Max = 60,
+            Value = Settings.RejoinDelay,
+            Textbox = true,
+            Callback = function(value)
+                Settings.RejoinDelay = value
+                Save()
+            end
+        })
+        
         --Features
         Sections.FeaturesSettings:AddToggle({
             Name = 'Kill Aura',
@@ -1680,5 +1687,13 @@ else
                 end
             end
         })
+
+        spawn(function()
+            while wait(Settings.RejoinDelay * 60) do
+                if InDungeon and Settings.StartFarm then
+                    game:GetService('TeleportService'):Teleport(2727067538)
+                end
+            end
+        end)
     end
 end
