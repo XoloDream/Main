@@ -69,6 +69,7 @@ else
     
     spawn(function()
         while wait(Settings.RejoinDelay * 60) do
+            --game.ReplicatedStorage.Shared.Teleport.TeleportToHub:FireServer(44)
             game:GetService('TeleportService'):Teleport(2727067538)
         end
     end)
@@ -91,12 +92,8 @@ else
 
     if game.PlaceId == 2727067538 then
         if Settings.StartFarm then
-            repeat task.wait() until game.ReplicatedStorage.ProfileCollections:FindFirstChild(game.Players.LocalPlayer.Name)
-            for i,v in next, game.ReplicatedStorage.ProfileCollections[game.Players.LocalPlayer.Name].Profiles:GetChildren() do
-                if v:FindFirstChild('Selected') and v:FindFirstChild('GUID') and v.Selected.Value == true then
-                    game.ReplicatedStorage.Shared.Teleport.JoinGame:FireServer(v.GUID.Value)
-                end
-            end
+            repeat task.wait(2) until game.ReplicatedStorage.ProfileCollections:FindFirstChild(game.Players.LocalPlayer.Name)
+            game.ReplicatedStorage.Shared.Teleport.JoinGame:FireServer(game.ReplicatedStorage.ProfileCollections[game.Players.LocalPlayer.Name].LastProfile.Value)
         end
     else
         repeat task.wait(1) until game.Players.LocalPlayer.Character
