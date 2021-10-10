@@ -11,9 +11,6 @@ local UserIDs = {
     305882, -- ZaVVaDa
     105904554, -- Xolo
 
-    117630695, --Sai
-    49109897,
-
     2644838750, --swiftyash
     2561152787, --roseshade
     2954211710, --
@@ -30,7 +27,7 @@ if not table.find(UserIDs, game.Players.LocalPlayer.UserId) then
     end
 else
     --Starter    
-    local Version = "1.3c"
+    local Version = "1.3d"
     local Name = 'WorldZero (UID_'..game.Players.LocalPlayer.UserId..').json'
     local DefaultSettings = {
         FarmDailyQuest = false,
